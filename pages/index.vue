@@ -1,14 +1,11 @@
 <script setup lang="ts">
-const props = defineProps<{
-	title: string
-}>()
+const { x, y } = useMouse()
 
 </script>
 
 <template>
 	<div>
-		<h1>{{ props.title }}</h1>
 		<p>Welcome to my Nuxt app!</p>
-		<slot />
+		<p>{{ x }}, {{ y }}</p>
 	</div>
 </template>
