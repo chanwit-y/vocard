@@ -1,16 +1,9 @@
 <script setup lang="ts">
-const { x, y } = useMouse()
-const c = useColorMode();
+import Card from '../components/Card.vue';
 
 </script>
 
 <template>
-	<div>
-		<p >Hi</p>
-	</div>
-	<div>
-
-		<p>Welcome to my Nuxt app!</p>
-		<p>{{ x }}, {{ y }}</p>
-	</div>
+	<p text-emerald>Home</p>
+	<Card />
 </template>
