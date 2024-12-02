@@ -4,23 +4,67 @@ import { ref } from 'vue';
 
 const container = ref<HTMLElement | null>(null);
 const target = ref<HTMLElement | null>(null);
+const left = ref('0');
+const opacity = ref<number>(1);
+const background = ref<string>('white');
 
 const containerWidth = computed(() => container.value?.offsetWidth)
 
-const { } = useSwipe(target, {
-	passive: false,
-	onSwipe: (e) => {
-		if(containerWidth.value) {
-			
+const reset = () => {
+	left.value = '0';
+	opacity.value = 1;
+	background.value = 'white';
+}
+
+const handleSwipe = (e: TouchEvent) => {
+	if (containerWidth.value) {
+		const len = Math.abs(lengthX.value)
+
+		if (lengthX.value < 0) {
+			left.value = `${len}px`;
+			background.value = 'palegreen';
+			opacity.value = 1 - (len / containerWidth.value);
+
+		} else if (lengthX.value > 0) {
+			left.value = `-${len}px`;
+			background.value = 'tomato';
+			opacity.value = 1 - (len / containerWidth.value);
+		} else {
+			left.value = '0';
+			opacity.value = 1;
+			background.value = 'white';
 		}
 	}
+}
+
+const handleSwipeEnd = (e: TouchEvent) => {
+	if (lengthX.value < 0 && containerWidth.value && (Math.abs(lengthX.value) / containerWidth.value) > 0.5) {
+		left.value = `${containerWidth.value}px`;
+		background.value = 'palegreen';
+		opacity.value = 0;
+	} else if (lengthX.value > 0 && containerWidth.value && (Math.abs(lengthX.value) / containerWidth.value) > 0.5) {
+		left.value = `-${containerWidth.value}px`;
+		background.value = 'tomato';
+		opacity.value = 0;
+	} else reset();
+
+	setTimeout(() => {
+		reset();
+	}, 300);
+}
+
+const { isSwiping, lengthX } = useSwipe(target, {
+	passive: false,
+	onSwipe: handleSwipe,
+	onSwipeEnd: handleSwipeEnd
 });
 
 </script>
 
 <template>
 	<div ref="container" class="container">
-		<div ref="target" class="overlay">
+		<div ref="target" class="overlay" :class="{ animated: !isSwiping }"
+			:style="{ left, opacity, background }">
 			<p>disappointed</p>
 		</div>
 	</div>
