@@ -66,15 +66,18 @@ const { isSwiping, lengthX } = useSwipe(target, {
 		<div ref="target" class="overlay" :class="{ animated: !isSwiping }"
 			:style="{ left, opacity, background }">
 			<p>disappointed</p>
+			<div class="menu-box">
+				<div class="open" i-material-symbols-volume-up-rounded />
+				<div class="sound" i-fluent-text-description-24-filled />
+			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 .container {
-	@apply: flex relative border border-style-dashed border-amber rounded-lg items-center justify-center overflow-hidden;
+	@apply: relative border border-4 border-style-dashed border-amber rounded-lg overflow-hidden;
 	height: 10rem;
 	transform: all 0.2s ease-in-out;
 }
@@ -83,11 +86,24 @@ const { isSwiping, lengthX } = useSwipe(target, {
 	@apply: absolute rounded-lg bg-white w-full h-full flex top-0 left-0 items-center justify-center;
 }
 
-.overlay>p {
+.overlay > p {
 	@apply: text-black text-4xl tracking-wider uppercase font-400;
 }
 
 .overlay.animated {
 	transition: all 0.2s ease-in-out;
 }
+
+.menu-box {
+	@apply: flex items-center justify-center gap-4 absolute bottom-4 left-4;
+}
+
+.menu-box>.sound {
+	@apply: w-8 h-8 bg-black rounded-md;
+}
+
+.menu-box>.open {
+	@apply: w-8 h-8 bg-black rounded-md;
+}
+
 </style>

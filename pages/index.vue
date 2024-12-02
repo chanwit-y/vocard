@@ -4,12 +4,13 @@ import Card from '../components/Card.vue';
 </script>
 
 <template>
-	<p text-emerald>Home</p>
-	<Card />
+	<div>
+		<Card />
+	</div>
 </template>
 
-<style>
-* {
-	@apply: font-sans;
-}
+<style scoped>
+	div {
+		@apply: p-4;
+	}
 </style>

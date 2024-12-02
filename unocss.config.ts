@@ -15,10 +15,8 @@ export default defineConfig({
     presetWebFonts({
       provider: "google",
       fonts: {
-        // these will extend the default theme
         sans: "Roboto",
         mono: ["Fira Code", "Fira Mono:400,700"],
-        // custom ones
         lobster: "Lobster",
         lato: [
           {

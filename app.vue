@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import '@unocss/reset/tailwind.css'
 </script>
 
 <template>
@@ -9,6 +10,10 @@
 
 
 <style>
+* {
+  @apply: font-sans;
+}
+
 .dark {
   color-scheme: dark;
 }
