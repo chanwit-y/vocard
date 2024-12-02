@@ -7,3 +7,9 @@ import Card from '../components/Card.vue';
 	<p text-emerald>Home</p>
 	<Card />
 </template>
+
+<style>
+* {
+	@apply: font-sans;
+}
+</style>
