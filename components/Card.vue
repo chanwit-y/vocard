@@ -22,12 +22,12 @@ const handleSwipe = (e: TouchEvent) => {
 
 		if (lengthX.value < 0) {
 			left.value = `${len}px`;
-			background.value = 'palegreen';
+			background.value = Colors.green;
 			opacity.value = 1 - (len / containerWidth.value);
 
 		} else if (lengthX.value > 0) {
 			left.value = `-${len}px`;
-			background.value = 'tomato';
+			background.value = Colors.red;
 			opacity.value = 1 - (len / containerWidth.value);
 		} else {
 			left.value = '0';
@@ -40,11 +40,11 @@ const handleSwipe = (e: TouchEvent) => {
 const handleSwipeEnd = (e: TouchEvent) => {
 	if (lengthX.value < 0 && containerWidth.value && (Math.abs(lengthX.value) / containerWidth.value) > 0.5) {
 		left.value = `${containerWidth.value}px`;
-		background.value = 'palegreen';
+		background.value = Colors.green;
 		opacity.value = 0;
 	} else if (lengthX.value > 0 && containerWidth.value && (Math.abs(lengthX.value) / containerWidth.value) > 0.5) {
 		left.value = `-${containerWidth.value}px`;
-		background.value = 'tomato';
+		background.value = Colors.red;
 		opacity.value = 0;
 	} else reset();
 
