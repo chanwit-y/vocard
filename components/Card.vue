@@ -10,13 +10,16 @@ const background = ref<string>('white');
 
 const containerWidth = computed(() => container.value?.offsetWidth)
 
+
 const reset = () => {
 	left.value = '0';
 	opacity.value = 1;
 	background.value = 'white';
 }
 
-const handleSwipe = (e: TouchEvent) => {
+
+
+const handleSwipe = (_: TouchEvent) => {
 	if (containerWidth.value) {
 		const len = Math.abs(lengthX.value)
 
@@ -37,7 +40,7 @@ const handleSwipe = (e: TouchEvent) => {
 	}
 }
 
-const handleSwipeEnd = (e: TouchEvent) => {
+const handleSwipeEnd = (_: TouchEvent) => {
 	if (lengthX.value < 0 && containerWidth.value && (Math.abs(lengthX.value) / containerWidth.value) > 0.5) {
 		left.value = `${containerWidth.value}px`;
 		background.value = Colors.green;
@@ -66,18 +69,18 @@ const { isSwiping, lengthX } = useSwipe(target, {
 		<div ref="target" class="overlay" :class="{ animated: !isSwiping }"
 			:style="{ left, opacity, background }">
 			<p>disappointed</p>
-			<div class="menu-box">
-				<div class="open" i-material-symbols-volume-up-rounded />
-				<div class="sound" i-fluent-text-description-24-filled />
-			</div>
+		</div>
+
+		<div class="menu-box">
+			<button class="open" i-material-symbols-volume-up-rounded  />
+			<div class="sound" i-fluent-text-description-24-filled />
 		</div>
 	</div>
 </template>
 
 <style scoped>
-
 .container {
-	@apply: relative border border-4 border-style-dashed border-amber rounded-lg overflow-hidden;
+	@apply: relative border border-4 border-style-dashed border-b-blue rounded-lg overflow-hidden;
 	height: 10rem;
 	transform: all 0.2s ease-in-out;
 }
@@ -86,7 +89,7 @@ const { isSwiping, lengthX } = useSwipe(target, {
 	@apply: absolute rounded-lg bg-white w-full h-full flex top-0 left-0 items-center justify-center;
 }
 
-.overlay > p {
+.overlay>p {
 	@apply: text-black text-4xl tracking-wider uppercase font-400;
 }
 
@@ -105,5 +108,4 @@ const { isSwiping, lengthX } = useSwipe(target, {
 .menu-box>.open {
 	@apply: w-8 h-8 bg-black rounded-md;
 }
-
 </style>
