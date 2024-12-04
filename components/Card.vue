@@ -18,6 +18,11 @@ const reset = () => {
 	background.value = dark;
 }
 
+const handlePlay = () => {
+	const audio = new Audio('https://ccysisxnpzqtdmmwacjy.supabase.co/storage/v1/object/public/speech/disappointed.mp3');
+	audio.play();
+}
+
 const handleSwipe = (_: TouchEvent) => {
 	if (containerWidth.value) {
 		const len = Math.abs(lengthX.value)
@@ -71,7 +76,7 @@ const { isSwiping, lengthX } = useSwipe(target, {
 		</div>
 
 		<div class="menu-box">
-			<button class="open" i-material-symbols-volume-up-rounded />
+			<button @click="handlePlay" class="open" i-material-symbols-volume-up-rounded />
 			<div class="sound" i-fluent-text-description-24-filled />
 		</div>
 	</div>
