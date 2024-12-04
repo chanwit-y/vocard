@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { TransitionPresets } from '@vueuse/core';
 
+const StartPositon = -20;
+
 const { open } = defineProps({ open: Boolean })
 const emit = defineEmits(['onClick'])
-
-const source = ref(0);
+const source = ref(StartPositon);
 
 watch(() => open, (value) => {
-	source.value = value ? -20 : 0;
+	source.value = value ? StartPositon : 0;
 })
 
 
 const handleClick = () => {
-	source.value = source.value === -20 ? 0 : -20;
+	source.value = source.value === StartPositon ? 0 : StartPositon;
 	emit('onClick')
 }
 
@@ -25,16 +26,26 @@ const output = useTransition(source, {
 
 <template>
 	<div class="container" :style="{ left: `${output}rem` }">
-		<div p-4 flex="~ justify-between items-center">
-			<div>Vocard</div>
-			<button i-material-symbols-arrow-back-ios-new m-2 text-2xl @click="handleClick" />
+		<div p-4 flex="~ justify-between items-start">
+			<div flex="~ justify-between items-center" gap-3>
+				<img src="../assets/logo.png" w-20 h-20 />
+				<div font-700 font-semibold text-2xl tracking-wider>Vocard</div>
+			</div>
+			<button i-material-symbols-close-rounded m-2 text-2xl @click="handleClick" />
+		</div>
+		<div mt-4 px-4 w-full>
+			<div bg-gray-8 p-3 rounded-md>
+				<span text-sm tracking-wider text-gray-2>
+					New vocabulary
+				</span>
+			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
 .container {
-	@apply: w-xs h-screen bg-dark absolute left-0 top-0 z-10 shadow-2xl;
+	@apply: w-xs h-screen dark:bg-dark bg-white absolute left-0 top-0 z-10 shadow-2xl;
 	transform: all 0.2s ease-in-out;
 }
 </style>

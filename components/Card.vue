@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-
 const container = ref<HTMLElement | null>(null);
 const target = ref<HTMLElement | null>(null);
 const left = ref('0');
@@ -10,14 +9,11 @@ const background = ref<string>('white');
 
 const containerWidth = computed(() => container.value?.offsetWidth)
 
-
 const reset = () => {
 	left.value = '0';
 	opacity.value = 1;
 	background.value = 'white';
 }
-
-
 
 const handleSwipe = (_: TouchEvent) => {
 	if (containerWidth.value) {
@@ -53,7 +49,7 @@ const handleSwipeEnd = (_: TouchEvent) => {
 
 	setTimeout(() => {
 		reset();
-	}, 300);
+	}, 500);
 }
 
 const { isSwiping, lengthX } = useSwipe(target, {
@@ -80,7 +76,7 @@ const { isSwiping, lengthX } = useSwipe(target, {
 
 <style scoped>
 .container {
-	@apply: relative border border-4 border-style-dashed border-b-blue rounded-lg overflow-hidden;
+	@apply: relative border border-4 border-style-dashed border-blue rounded-lg overflow-hidden;
 	height: 10rem;
 	transform: all 0.2s ease-in-out;
 }
