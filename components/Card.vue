@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+const dark = "#1f2937";
+// const dark = "#222222";
+
 const container = ref<HTMLElement | null>(null);
 const target = ref<HTMLElement | null>(null);
 const left = ref('0');
 const opacity = ref<number>(1);
-const background = ref<string>('white');
+const background = ref<string>(dark);
 
 const containerWidth = computed(() => container.value?.offsetWidth)
 
 const reset = () => {
 	left.value = '0';
 	opacity.value = 1;
-	background.value = 'white';
+	background.value = dark;
 }
 
 const handleSwipe = (_: TouchEvent) => {
@@ -31,7 +34,7 @@ const handleSwipe = (_: TouchEvent) => {
 		} else {
 			left.value = '0';
 			opacity.value = 1;
-			background.value = 'white';
+			background.value = dark;
 		}
 	}
 }
@@ -68,7 +71,7 @@ const { isSwiping, lengthX } = useSwipe(target, {
 		</div>
 
 		<div class="menu-box">
-			<button class="open" i-material-symbols-volume-up-rounded  />
+			<button class="open" i-material-symbols-volume-up-rounded />
 			<div class="sound" i-fluent-text-description-24-filled />
 		</div>
 	</div>
@@ -76,17 +79,17 @@ const { isSwiping, lengthX } = useSwipe(target, {
 
 <style scoped>
 .container {
-	@apply: relative border border-4 border-style-dashed border-blue rounded-lg overflow-hidden;
+	@apply: relative border border-4 border-style-dashed light:border-gray-6 rounded-lg overflow-hidden;
 	height: 10rem;
 	transform: all 0.2s ease-in-out;
 }
 
 .overlay {
-	@apply: absolute rounded-lg bg-white w-full h-full flex top-0 left-0 items-center justify-center;
+	@apply: absolute rounded-lg w-full h-full flex top-0 left-0 items-center justify-center;
 }
 
 .overlay>p {
-	@apply: text-black text-4xl tracking-wider uppercase font-400;
+	@apply: text-white text-4xl tracking-wider uppercase font-400;
 }
 
 .overlay.animated {
@@ -98,10 +101,10 @@ const { isSwiping, lengthX } = useSwipe(target, {
 }
 
 .menu-box>.sound {
-	@apply: w-8 h-8 bg-black rounded-md;
+	@apply: w-6 h-6 bg-white rounded-md;
 }
 
 .menu-box>.open {
-	@apply: w-8 h-8 bg-black rounded-md;
+	@apply: w-6 h-6 bg-white rounded-md;
 }
 </style>

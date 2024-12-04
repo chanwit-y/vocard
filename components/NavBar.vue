@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SideBar from '~/components/SideBar.vue';
 
+// TODO: Change open to store
 const o = ref(false);
 const colorMode = useColorMode();
 
@@ -16,18 +17,11 @@ const handleTheme = () => {
 
 <template>
 	<SideBar :open="o" v-on:on-click="handleOpen" />
-	<div v-if="!o" class="backdrop" @click="handleOpen"></div>
 	<nav flex justify-between p-4>
-		<!-- <button w-8 h-8 i-material-symbols-menu-rounded @click="handleOpen"></button> -->
 		<button w-8 h-8 i-material-symbols-menu-rounded @click="handleOpen"></button>
-		<!-- i-material-symbols-dark-mode-outline-rounded -->
-		<div @click="handleTheme" w-8 h-8 i-material-symbols-light-mode-outline></div>
+		<div :class="colorMode.preference === 'dark' ? 'i-material-symbols-light-mode-outline' : 'i-material-symbols-dark-mode-outline-rounded'" @click="handleTheme" w-8 h-8 ></div>
 	</nav>
 </template>
 
 <style scoped>
-.backdrop {
-	@apply: absolute top-0 left-0 w-screen h-screen backdrop-blur-sm bg-white/10 z-1;
-	opacity: 0.9;
-}
 </style>
