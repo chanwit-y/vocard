@@ -5,7 +5,7 @@ const { width, height } = useWindowSize()
 </script>
 
 <template>
-	<div v-if="width <= 430" h-screen-md  grid="~ grid content-around cols-[1fr] rows-[1fr_1fr]">
+	<div v-if="width <= 430" h-screen-sm  grid="~ grid content-around cols-[1fr] rows-[1fr_1fr]">
 		<NavBar />
 		<slot />
 	</div>
