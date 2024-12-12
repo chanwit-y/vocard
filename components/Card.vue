@@ -100,26 +100,26 @@ const handleSize = () => {
 				<p v-if="words.length > 0 && size === 10">{{ words[currentIndex].word }}</p>
 			</Transition>
 			<Transition name="detail">
-				<div v-if="words.length > 0 && size !== 10" class="absolute top-4 left-4">
+				<div v-if="words.length > 0 && size !== 10" absolute top-4 left-4>
 					<div class="flex items-center">
-						<p class="text-white text-2xl tracking-wider uppercase font-400">{{
+						<p text-white text-2xl tracking-wider uppercase font-400>{{
 							words[currentIndex].word }}</p>
-						<span v-for="type in words[currentIndex].types" class="mx-1 border p-1 rounded-md">{{ type }}</span>
+						<span v-for="type in words[currentIndex].types" mx-1 border p-1 rounded-md>{{ type }}</span>
 					</div>
-					<div class="flex items-center gap-2">
-						<span class="i-tabler-arrow-badge-right-filled text-white" />
-						<p class="text-white text-lg tracking-wider uppercase font-400">{{
+					<div flex items-center gap-2>
+						<span i-tabler-arrow-badge-right-filled text-white />
+						<p text-white text-lg tracking-wider uppercase font-400>{{
 							words[currentIndex].english }}</p>
 					</div>
-					<div class="flex items-center gap-2">
-						<span class="i-tabler-arrow-badge-right-filled text-white" />
-						<p class="text-white text-lg tracking-wider uppercase font-400">{{
+					<div flex items-center gap-2>
+						<span i-tabler-arrow-badge-right-filled text-white />
+						<p text-white text-lg tracking-wider uppercase font-400>{{
 							words[currentIndex].thai }}</p>
 					</div>
-					<hr class="my-4 ml-4 mr-6 opacity-25" />
+					<hr my-4 ml-4 mr-6 opacity-25 />
 
-					<p class="text-white text-lg tracking-wider font-400 mb-2">Example</p>
-					<li v-for="example in words[currentIndex].examples" class="pl-2 tracking-wider">
+					<p text-white text-lg tracking-wider font-400 mb-2>Example</p>
+					<li v-for="example in words[currentIndex].examples" pl-2 tracking-wider>
 						{{ example }}
 					</li>
 				</div>
