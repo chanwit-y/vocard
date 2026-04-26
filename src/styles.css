@@ -51,9 +51,27 @@ body {
   body {
     background-color: #fff7ee;
   }
+  /* Explicit safe-area painter: a fixed strip behind everything that
+     covers the home-indicator area with the theme color. This is a
+     belt-and-braces fix for older iOS PWA versions where the body
+     background does not extend below safe-area-inset-bottom. */
+  body::after {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: env(safe-area-inset-bottom);
+    background-color: #fff7ee;
+    z-index: -1;
+    pointer-events: none;
+  }
   @media (prefers-color-scheme: dark) {
     html,
     body {
+      background-color: #15110c;
+    }
+    body::after {
       background-color: #15110c;
     }
   }

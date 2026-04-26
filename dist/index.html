@@ -14,6 +14,22 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Vocard" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
+    <style>
+      /* Inline so the very first paint (before main CSS / JS loads) already
+         has the theme color on <html> and <body>. iOS PWA standalone mode
+         paints the home-indicator strip at the bottom from the body's
+         background, so this also fixes the white footer on home screen. */
+      html,
+      body {
+        background-color: #fff7ee;
+      }
+      @media (prefers-color-scheme: dark) {
+        html,
+        body {
+          background-color: #15110c;
+        }
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -21,8 +37,8 @@
       rel="stylesheet"
     />
     <title>Vocard — Vocabulary Flashcards</title>
-    <script type="module" crossorigin src="/assets/index-DKIEtlf7.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Dc6MYAV5.css">
+    <script type="module" crossorigin src="/assets/index-DIZboluh.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DAWB3obE.css">
   <link rel="manifest" href="/manifest.webmanifest"></head>
   <body class="no-select">
     <div id="root"></div>

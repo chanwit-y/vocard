@@ -103,12 +103,13 @@ export default function App() {
   }, [initialDeck])
 
   useEffect(() => {
-    document.documentElement.style.background = theme.bgGrad
+    // Set color and image separately (not the `background` shorthand) so
+    // we never accidentally clear the solid backgroundColor. iOS PWA
+    // standalone mode paints the home-indicator strip from the body's
+    // background-color, so it must always be a solid theme color.
     document.documentElement.style.backgroundColor = theme.bg
-    // Use the solid theme bg (not transparent) so iOS PWA standalone mode
-    // paints the home-indicator / bottom safe-area strip with the theme
-    // color instead of falling back to white.
-    document.body.style.background = theme.bg
+    document.documentElement.style.backgroundImage = theme.bgGrad
+    document.body.style.backgroundColor = theme.bg
     const metas = document.querySelectorAll<HTMLMetaElement>(
       'meta[name="theme-color"]',
     )
