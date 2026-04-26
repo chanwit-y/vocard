@@ -105,7 +105,10 @@ export default function App() {
   useEffect(() => {
     document.documentElement.style.background = theme.bgGrad
     document.documentElement.style.backgroundColor = theme.bg
-    document.body.style.background = 'transparent'
+    // Use the solid theme bg (not transparent) so iOS PWA standalone mode
+    // paints the home-indicator / bottom safe-area strip with the theme
+    // color instead of falling back to white.
+    document.body.style.background = theme.bg
     const metas = document.querySelectorAll<HTMLMetaElement>(
       'meta[name="theme-color"]',
     )

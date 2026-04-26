@@ -27,7 +27,7 @@ html {
 }
 
 body {
-  background: transparent;
+  background: #fff7ee;
   color: #2a1f14;
 }
 
@@ -37,7 +37,25 @@ body {
     background: radial-gradient(120% 80% at 20% 0%, #2b1f14 0%, #15110c 55%, #1a140e 100%);
   }
   body {
+    background: #15110c;
     color: #fff1e0;
+  }
+}
+
+/* In PWA standalone mode (added to home screen), iOS paints the
+   bottom safe-area / home-indicator strip with the body background.
+   Pin both <html> and <body> to the solid theme color so the footer
+   no longer falls back to white. */
+@media (display-mode: standalone) {
+  html,
+  body {
+    background-color: #fff7ee;
+  }
+  @media (prefers-color-scheme: dark) {
+    html,
+    body {
+      background-color: #15110c;
+    }
   }
 }
 
