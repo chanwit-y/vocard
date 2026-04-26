@@ -1,0 +1,49 @@
+.PWABadge {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  margin: 16px;
+  padding: 12px;
+  border: 1px solid #8885;
+  border-radius: 8px;
+  z-index: 1;
+  text-align: left;
+  box-shadow: 3px 4px 5px 0 #8885;
+  background: #1f2937;
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
+  max-width: 320px;
+}
+
+.PWABadge-toast {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.PWABadge-message {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.PWABadge-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.PWABadge-toast-button {
+  border: 1px solid #8885;
+  outline: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.PWABadge-toast-button:hover {
+  background: #ffffff14;
+}

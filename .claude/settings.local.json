@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(command -v sips)",
+      "Bash(sips --help)",
+      "Bash(command -v rsvg-convert)",
+      "Bash(command -v convert)",
+      "Bash(command -v python3)",
+      "Bash(convert -background none -size 192x192 public/favicon.svg public/icon-192.png)",
+      "Bash(convert -background none -size 512x512 public/favicon.svg public/icon-512.png)"
+    ]
+  }
+}
