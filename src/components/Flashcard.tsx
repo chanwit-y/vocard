@@ -320,8 +320,8 @@ function CardFace({
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: isBack ? 'flex-start' : 'center',
-          textAlign: isBack ? 'left' : 'center',
+          alignItems: 'center',
+          textAlign: 'center',
           position: 'relative',
           zIndex: 1,
         }}
@@ -359,47 +359,18 @@ function CardFace({
             )}
           </>
         ) : (
-          <>
-            <div
-              style={{
-                fontFamily:
-                  "'Fraunces', 'Nunito', system-ui, sans-serif",
-                fontWeight: 600,
-                fontSize: fontSize * 1.4,
-                lineHeight: 1.05,
-                marginBottom: 8,
-                color: face.accent,
-              }}
-            >
-              {card.word}
-            </div>
-            {card.pos && (
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: face.text,
-                  opacity: 0.55,
-                  marginBottom: 14,
-                }}
-              >
-                {card.pos}
-              </div>
-            )}
-            <div
-              style={{
-                fontSize: fontSize * 1.35,
-                lineHeight: 1.4,
-                fontWeight: 600,
-                fontFamily:
-                  "'Noto Sans Thai', 'Nunito', system-ui, sans-serif",
-              }}
-            >
-              {card.translation}
-            </div>
-          </>
+          <div
+            style={{
+              fontSize: fontSize * 1.6,
+              lineHeight: 1.35,
+              fontWeight: 600,
+              fontFamily:
+                "'Noto Sans Thai', 'Nunito', system-ui, sans-serif",
+              color: face.text,
+            }}
+          >
+            {card.translation}
+          </div>
         )}
       </div>
 
