@@ -1,10 +1,13 @@
 import {
   useEffect,
+  useMemo,
   useRef,
   useState,
   type CSSProperties,
+  type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
 } from 'react'
+import { useSpeechSynthesis } from 'react-speech-kit'
 import { CARD_VARIANTS } from '../themes'
 import type { CardFaceTokens, DeckCard, ThemeTokens, Variant } from '../types'
 
@@ -38,10 +41,37 @@ export function Flashcard({
   const lastTap = useRef(0)
   const startPos = useRef({ x: 0, y: 0 })
 
+  const { supported, speak, speaking, cancel, voices } = useSpeechSynthesis()
+
+  const englishVoice = useMemo(() => {
+    if (!voices || voices.length === 0) return null
+    return (
+      voices.find((v) => v.lang === 'en-US' && /female|samantha|google us english/i.test(v.name)) ||
+      voices.find((v) => v.lang === 'en-US') ||
+      voices.find((v) => v.lang?.startsWith('en')) ||
+      null
+    )
+  }, [voices])
+
+  const handleSpeak = (e: ReactMouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    if (!supported) return
+    if (speaking) {
+      cancel()
+      return
+    }
+    speak({ text: card.word, voice: englishVoice, rate: 0.95 })
+  }
+
+  const stopPointer = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+  }
+
   useEffect(() => {
     setFlipped(false)
     setDrag({ x: 0, y: 0 })
     setExiting(null)
+    if (speaking) cancel()
   }, [card.id])
 
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
@@ -147,6 +177,10 @@ export function Flashcard({
           tintColor={tintColor}
           dragX={drag.x}
           isTop={isTop}
+          onSpeak={handleSpeak}
+          onSpeakerPointerDown={stopPointer}
+          speaking={speaking}
+          speechSupported={supported}
         />
         <CardFace
           face={v.back}
@@ -157,6 +191,10 @@ export function Flashcard({
           tintColor={tintColor}
           dragX={drag.x}
           isTop={isTop}
+          onSpeak={handleSpeak}
+          onSpeakerPointerDown={stopPointer}
+          speaking={speaking}
+          speechSupported={supported}
         />
       </div>
     </div>
@@ -172,6 +210,10 @@ type CardFaceProps = {
   tintColor: string
   dragX: number
   isTop: boolean
+  onSpeak: (e: ReactMouseEvent<HTMLButtonElement>) => void
+  onSpeakerPointerDown: (e: ReactPointerEvent<HTMLButtonElement>) => void
+  speaking: boolean
+  speechSupported: boolean
 }
 
 function CardFace({
@@ -183,6 +225,10 @@ function CardFace({
   tintColor,
   dragX,
   isTop,
+  onSpeak,
+  onSpeakerPointerDown,
+  speaking,
+  speechSupported,
 }: CardFaceProps) {
   return (
     <div
@@ -226,21 +272,46 @@ function CardFace({
           letterSpacing: '0.14em',
           textTransform: 'uppercase',
           color: face.accent,
-          opacity: 0.7,
+          opacity: 0.85,
           position: 'relative',
-          zIndex: 1,
+          zIndex: 2,
         }}
       >
-        <span>{isBack ? 'Meaning' : 'Word'}</span>
-        <span
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: 99,
-            background: face.accent,
-            opacity: 0.6,
-          }}
-        />
+        <span style={{ opacity: 0.8 }}>{isBack ? 'Meaning' : 'Word'}</span>
+        {speechSupported && (
+          <button
+            type="button"
+            onClick={onSpeak}
+            onPointerDown={onSpeakerPointerDown}
+            disabled={!isTop}
+            aria-label={speaking ? 'Stop pronunciation' : `Pronounce ${card.word}`}
+            title={speaking ? 'Stop' : `Pronounce "${card.word}"`}
+            style={{
+              appearance: 'none',
+              border: `1.5px solid ${face.accent}`,
+              background: speaking
+                ? face.accent
+                : 'rgba(255,255,255,0.18)',
+              color: speaking ? face.bg : face.accent,
+              width: 34,
+              height: 34,
+              borderRadius: 99,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: isTop ? 'pointer' : 'default',
+              padding: 0,
+              boxShadow: speaking
+                ? '0 0 0 6px rgba(255,255,255,0.18)'
+                : 'none',
+              transition: 'background 180ms ease, box-shadow 220ms ease, transform 160ms ease',
+              transform: speaking ? 'scale(1.06)' : 'scale(1)',
+              opacity: isTop ? 1 : 0.55,
+            }}
+          >
+            <SpeakerIcon active={speaking} />
+          </button>
+        )}
       </div>
 
       <div
@@ -382,5 +453,31 @@ function CardFace({
         }}
       />
     </div>
+  )
+}
+
+function SpeakerIcon({ active }: { active: boolean }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" stroke="none" />
+      {active ? (
+        <>
+          <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+          <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+        </>
+      ) : (
+        <path d="M15.5 9.5a4 4 0 0 1 0 5" />
+      )}
+    </svg>
   )
 }

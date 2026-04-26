@@ -16,16 +16,38 @@ body,
 #root {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100%;
+  min-height: 100dvh;
   overscroll-behavior: none;
 }
 
-body {
+html {
   background: #fff7ee;
+  background: radial-gradient(120% 80% at 20% 0%, #ffe9d2 0%, #fff7ee 55%, #ffefe0 100%);
+}
+
+body {
+  background: transparent;
   color: #2a1f14;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background: #15110c;
+    background: radial-gradient(120% 80% at 20% 0%, #2b1f14 0%, #15110c 55%, #1a140e 100%);
+  }
+  body {
+    color: #fff1e0;
+  }
 }
 
 .no-select {
   user-select: none;
   -webkit-user-select: none;
+}
+
+@media (max-width: 480px) {
+  .pill-label {
+    display: none;
+  }
 }

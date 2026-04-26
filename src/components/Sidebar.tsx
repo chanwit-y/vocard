@@ -55,7 +55,7 @@ export function Sidebar({
       style={{
         position: 'fixed',
         inset: 0,
-        zIndex: 60,
+        zIndex: 150,
         pointerEvents: open ? 'auto' : 'none',
       }}
     >

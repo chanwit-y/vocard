@@ -31,7 +31,10 @@ export function Pill({ theme, icon, value, label, pulse, accent }: PillProps) {
         {icon}
       </span>
       <span style={{ fontVariantNumeric: 'tabular-nums' }}>{value}</span>
-      <span style={{ color: theme.sub, fontWeight: 600, fontSize: 11 }}>
+      <span
+        className="pill-label"
+        style={{ color: theme.sub, fontWeight: 600, fontSize: 11 }}
+      >
         {label}
       </span>
     </div>

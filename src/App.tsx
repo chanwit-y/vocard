@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { CompleteScreen } from './components/CompleteScreen'
 import { Flashcard, type SwipeDir } from './components/Flashcard'
-import { DoubleTapHint, Logo, Pill, SwipeHint } from './components/Hud'
+import { Logo, Pill } from './components/Hud'
 import { LevelSelect } from './components/LevelSelect'
 import { MenuButton, Sidebar } from './components/Sidebar'
 import { VocabularyPage } from './components/VocabularyPage'
@@ -93,24 +93,28 @@ export default function App() {
 
   const [queue, setQueue] = useState<DeckCard[]>(initialDeck)
   const [knownCount, setKnownCount] = useState(0)
-  const [reviewedCount, setReviewedCount] = useState(0)
+  const [reviewedCards, setReviewedCards] = useState<DeckCard[]>([])
   const [pulse, setPulse] = useState<'known' | 'review' | null>(null)
 
   useEffect(() => {
     setQueue(initialDeck)
     setKnownCount(0)
-    setReviewedCount(0)
+    setReviewedCards([])
   }, [initialDeck])
 
   useEffect(() => {
-    document.body.style.background = theme.bg
-    const meta = document.querySelector<HTMLMetaElement>(
+    document.documentElement.style.background = theme.bgGrad
+    document.documentElement.style.backgroundColor = theme.bg
+    document.body.style.background = 'transparent'
+    const metas = document.querySelectorAll<HTMLMetaElement>(
       'meta[name="theme-color"]',
     )
-    if (meta) meta.content = theme.bg
-  }, [theme.bg])
+    metas.forEach((meta) => {
+      meta.content = theme.bg
+    })
+  }, [theme.bg, theme.bgGrad])
 
-  const totalWords = initialDeck.length
+  const totalWords = queue.length + knownCount + reviewedCards.length
   const progress = totalWords === 0 ? 0 : knownCount / totalWords
 
   const handleSwipe = useCallback((dir: SwipeDir) => {
@@ -120,11 +124,11 @@ export default function App() {
       if (dir === 'right') {
         setKnownCount((k) => k + 1)
         setPulse('known')
-        return rest
+      } else {
+        setReviewedCards((r) => [...r, current])
+        setPulse('review')
       }
-      setReviewedCount((r) => r + 1)
-      setPulse('review')
-      return [...rest, { ...current, id: `${current.word}-r${Date.now()}` }]
+      return rest
     })
     window.setTimeout(() => setPulse(null), 300)
   }, [])
@@ -135,14 +139,23 @@ export default function App() {
     const fresh = buildRound(session.level, session.roundSize, roundSeedRef.current)
     setQueue(fresh)
     setKnownCount(0)
-    setReviewedCount(0)
+    setReviewedCards([])
   }, [session])
+
+  const handlePracticeReview = useCallback(() => {
+    setReviewedCards((prev) => {
+      if (prev.length === 0) return prev
+      setQueue(prev)
+      setKnownCount(0)
+      return []
+    })
+  }, [])
 
   const handleBackToLevels = useCallback(() => {
     setSession(null)
     setQueue([])
     setKnownCount(0)
-    setReviewedCount(0)
+    setReviewedCards([])
   }, [])
 
   const handlePickLevel = useCallback((level: Level) => {
@@ -300,7 +313,7 @@ export default function App() {
             <Pill
               theme={theme}
               icon="↻"
-              value={reviewedCount}
+              value={reviewedCards.length}
               label="review"
               pulse={pulse === 'review'}
               accent="#C4302B"
@@ -366,9 +379,12 @@ export default function App() {
           {isComplete ? (
             <CompleteScreen
               known={knownCount}
-              reviewed={reviewedCount}
+              reviewed={reviewedCards.length}
               theme={theme}
               onRestart={handleRestart}
+              onPracticeReview={
+                reviewedCards.length > 0 ? handlePracticeReview : undefined
+              }
               onChangeLevel={handleBackToLevels}
             />
           ) : (
@@ -387,37 +403,6 @@ export default function App() {
           )}
         </div>
       </main>
-
-      {!isComplete && (
-        <footer
-          style={{
-            padding: '10px clamp(12px, 4vw, 22px) 22px',
-            paddingBottom: 'max(22px, env(safe-area-inset-bottom))',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 'clamp(6px, 2vw, 12px)',
-            flexWrap: 'nowrap',
-          }}
-        >
-          <SwipeHint
-            theme={theme}
-            color="#C4302B"
-            arrow="←"
-            label="Don't know"
-            sub="Loops back"
-          />
-          <DoubleTapHint theme={theme} />
-          <SwipeHint
-            theme={theme}
-            color="#1F8A4F"
-            arrow="→"
-            label="I know it"
-            sub="Mastered"
-            align="right"
-          />
-        </footer>
-      )}
 
       <TweaksPanel title="Tweaks" dark={t.dark}>
         <TweakSection label="Theme" />
