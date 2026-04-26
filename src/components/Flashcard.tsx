@@ -164,8 +164,10 @@ export function Flashcard({
           width: '100%',
           height: '100%',
           transformStyle: 'preserve-3d',
+          WebkitTransformStyle: 'preserve-3d',
           transition: 'transform 600ms cubic-bezier(.4,.0,.2,1)',
           transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          willChange: 'transform',
         }}
       >
         <CardFace
@@ -237,9 +239,15 @@ function CardFace({
         inset: 0,
         backfaceVisibility: 'hidden',
         WebkitBackfaceVisibility: 'hidden',
-        transform: isBack ? 'rotateY(180deg)' : 'none',
+        transform: isBack
+          ? 'rotateY(180deg) translateZ(1px)'
+          : 'rotateY(0deg) translateZ(1px)',
+        WebkitTransform: isBack
+          ? 'rotateY(180deg) translateZ(1px)'
+          : 'rotateY(0deg) translateZ(1px)',
         borderRadius: 28,
         overflow: 'hidden',
+        isolation: 'isolate',
         background: face.bg,
         color: face.text,
         boxShadow:
